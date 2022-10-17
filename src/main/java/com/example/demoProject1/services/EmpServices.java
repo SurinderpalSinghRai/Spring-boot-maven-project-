@@ -11,7 +11,11 @@ import java.util.Optional;
 @Service
 public class EmpServices {
 
-    @Autowired
+    public EmpServices(EmployeeRepo employeeRepo) {
+        this.employeeRepo = employeeRepo;
+    }
+
+    //@Autowired
     private EmployeeRepo employeeRepo;
 
     public Employees saveEmployee(Employees employee) {

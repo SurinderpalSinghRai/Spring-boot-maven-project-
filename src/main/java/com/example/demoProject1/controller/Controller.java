@@ -34,7 +34,8 @@ public class Controller {
     }
     @PutMapping("/updateEmployee")
     public Employees updateEmployee(@RequestBody Employees employee){
-       return empServices.updateEmployee(employee);
+
+        return empServices.updateEmployee(employee);
     }
     @DeleteMapping("/deleteEmployee/{id}")
     public String deleteEmployee(@PathVariable int id){
