@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 //import org.assertj.core.api.Assertions;
@@ -30,12 +31,33 @@ public class EmpServicesTest {
 
     @Test
     void saveEmployeeTest(){
-        Employees employee = new Employees("101" , "Surinder" , "surinder@gmail.com" , "Punjab");
-
-
+        Employees employee = new Employees(101,
+                                           "Surinder",
+                                           "surinder@gmail.com",
+                                           "Punjab");
         assertNotNull(employee);
     }
 
+    @Test
+    public void saveListOfEmployeeTest(){
+        Employees employee1 = new Employees(101,
+                "Surinder",
+                "surinder@gmail.com",
+                "Punjab");
+        Employees employee2 = new Employees(102,
+                "inder",
+                "inder@gmail.com",
+                "ABohar");
+
+        List<Employees> l =new ArrayList<Employees>();
+        l.add(employee1);
+        l.add(employee2);
+
+        employeeRepo.saveAll(l);
+
+        List<Employees> l2 = employeeRepo.findAll();
+        Assertions.assertThat(l2.size()).isGreaterThan(0);
+    }
 
     @Test
     public void getEmployee(){
@@ -55,11 +77,11 @@ public class EmpServicesTest {
     public void updateEmployeeTest(){
         Employees employee = employeeRepo.findById(3).get();
 
-        employee.setEmpEmail("abc@gmail.com");
+        employee.setEmpEmail("abul@gmail.com");
 
         Employees updatedEmployee =  employeeRepo.save(employee);
 
-        Assertions.assertThat(updatedEmployee.getEmpEmail()).isEqualTo("abc@gmail.com");
+        Assertions.assertThat(updatedEmployee.getEmpEmail()).isEqualTo("abul@gmail.com");
 
     }
 
@@ -68,6 +90,15 @@ public class EmpServicesTest {
         Employees employee = employeeRepo.findById(9).get();
 
         employeeRepo.delete(employee);
+
+        Employees employee1 = null;
+
+        Optional<Employees> optionalEmployees = employeeRepo.findById(9);
+
+        if(optionalEmployees.isPresent()){
+            employee1 = optionalEmployees.get();
+        }
+        Assertions.assertThat(employee1).isNull();
     }
 
 
