@@ -13,6 +13,8 @@ import javax.persistence.*;
 @Table(name="EmploeesInfo")
 public class Employees {
 
+    //We are storing following employees information.
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int empId;
